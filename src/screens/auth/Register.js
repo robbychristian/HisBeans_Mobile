@@ -17,13 +17,13 @@ import Loading from '../../components/Loading';
 const Register = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {loading} = useSelector(state => state.auth);
-  const [fname, setFname] = useState('Robby');
-  const [lname, setLname] = useState('De Leon');
-  const [username, setUsername] = useState('robby');
-  const [cnumber, setCnum] = useState('09750551187');
-  const [email, setEmail] = useState('robbychristiandeleon@gmail.com');
-  const [password, setPassword] = useState('password');
-  const [cpassword, setCpassword] = useState('password');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [username, setUsername] = useState('');
+  const [cnumber, setCnum] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [cpassword, setCpassword] = useState('');
 
   const onSubmit = async () => {
     const input = {

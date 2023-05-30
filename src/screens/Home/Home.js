@@ -20,6 +20,16 @@ const Home = ({navigation, route}) => {
   //   return unsubscribe;
   // }, [navigation]);
   useEffect(() => {
+    api
+      .get('api/getAllFeatured')
+      .then(response => {
+        setLoading(false);
+        setFeatured(response.data);
+        console.log(response.data);
+      })
+      .catch(err => {
+        setLoading(false);
+      });
     const unsubscribe = navigation.addListener('focus', () => {
       setLoading(true);
       api
@@ -27,6 +37,7 @@ const Home = ({navigation, route}) => {
         .then(response => {
           setLoading(false);
           setFeatured(response.data);
+          console.log(response.data);
         })
         .catch(err => {
           setLoading(false);
@@ -34,6 +45,7 @@ const Home = ({navigation, route}) => {
     });
     return unsubscribe;
   }, [navigation]);
+
   return (
     <Layout style={styles.container}>
       <ScrollView style={{flexGrow: 1}}>

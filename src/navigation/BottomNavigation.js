@@ -13,6 +13,9 @@ import Account from '../screens/Account/Account';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native';
 import TopNavigation from './TopNavigation';
+import {View} from 'react-native';
+import Cart from '../screens/Cart/Cart';
+import MenuCustomization from '../screens/Menu/MenuCustomization';
 
 const BottomStack = createBottomTabNavigator();
 
@@ -81,14 +84,24 @@ const BottomBarNavigation = ({navigation}) => {
         headerTitleStyle: {color: '#fff'},
         headerStyle: {backgroundColor: '#f15a38'},
         headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.push('TopNav')}>
-            <Icon
-              name="inbox-full"
-              size={30}
-              style={{marginRight: 10}}
-              color="#FFF"
-            />
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity onPress={() => navigation.push('TopNav')}>
+              <Icon
+                name="inbox-full"
+                size={30}
+                style={{marginRight: 10}}
+                color="#FFF"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.push('Cart')}>
+              <Icon
+                name="cart"
+                size={30}
+                style={{marginRight: 10}}
+                color="#FFF"
+              />
+            </TouchableOpacity>
+          </View>
         ),
       }}>
       <BottomStack.Screen name="Home" component={Home} />
@@ -96,6 +109,10 @@ const BottomBarNavigation = ({navigation}) => {
       <BottomStack.Screen name="Order" component={Order} />
       <BottomStack.Screen name="Coupon" component={Coupon} />
       <BottomStack.Screen name="Account" component={Account} />
+      <BottomStack.Screen
+        name="MenuCustomization"
+        component={MenuCustomization}
+      />
     </BottomStack.Navigator>
   );
 };

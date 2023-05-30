@@ -7,7 +7,7 @@ import UpdateCard from '../../components/cards/UpdateCard';
 import Loading from '../../components/Loading';
 import MenuCard from '../../components/cards/MenuCard';
 
-const Menu = () => {
+const Menu = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [currIndex, setCurrIndex] = useState(0);
   const [category, setCategory] = useState('');
@@ -37,6 +37,7 @@ const Menu = () => {
         })
         .catch(err => {
           setLoading(false);
+          console.log(err.response);
           Alert.alert('Error!', 'There was a problem fetching the categories!');
         });
     } else {
@@ -51,7 +52,7 @@ const Menu = () => {
           Alert.alert('Error!', 'There was a problem fetching the meny items!');
         });
     }
-  }, [category]);
+  }, [category, navigation]);
   return (
     <Layout style={styles.container}>
       <Loading loading={loading} />
@@ -79,13 +80,20 @@ const Menu = () => {
       </View>
       <View style={{flex: 0.9}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          {menuItems
+          {menuItems.length > 0
             ? menuItems.map((item, index) => {
                 return (
                   <MenuCard
                     name={item.item_name}
                     description={item.item_description}
                     price={item.price}
+                    onPress={
+                      () =>
+                        navigation.navigate('MenuCustomization', {
+                          id: item.id,
+                        })
+                      // console.log(item.id)
+                    }
                   />
                 );
               })

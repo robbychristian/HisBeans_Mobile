@@ -5,6 +5,7 @@ import Login from '../screens/auth/Login';
 import Register from '../screens/auth/Register';
 import BottomBarNavigation from '../navigation/BottomNavigation';
 import TopNavigation from './TopNavigation';
+import Cart from '../screens/Cart/Cart';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const MainNavigation = () => {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BottomNav" component={BottomBarNavigation} />
         <Stack.Screen name="TopNav" component={TopNavigation} />
+        <Stack.Screen name="Cart" component={Cart} />
       </Stack.Navigator>
     </NavigationContainer>
   );

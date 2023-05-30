@@ -7,13 +7,12 @@ import {TouchableOpacity} from 'react-native';
 const MenuCard = ({name, description, price, onPress, icon}) => {
   return (
     <TouchableOpacity
-      onPress={onPress}
       style={{
         paddingHorizontal: 15,
         paddingVertical: 5,
         backgroundColor: '#fff',
       }}>
-      <Card style={{backgroundColor: '#eee'}}>
+      <Card style={{backgroundColor: '#eee'}} onPress={onPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Icon name="coffee-outline" size={40} style={{marginRight: 30}} />
           <View>

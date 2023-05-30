@@ -71,7 +71,7 @@ const Login = ({navigation, route}) => {
             <CustomTextInput
               value={username}
               onChangeText={value => setUsername(value)}
-              label={`Email`}
+              label={`Username`}
               my={10}
             />
             <CustomTextInput

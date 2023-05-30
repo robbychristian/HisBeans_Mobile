@@ -61,12 +61,14 @@ const Register = ({navigation, route}) => {
   return (
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Loading loading={loading} />
-        <View style={styles.contentContainer}>
+        <View style={{alignItems: 'center', marginTop: 20}}>
           <Image
             source={require('../../../assets/logo/logo-circle-white.png')}
             style={{height: 125, width: 125, marginTop: 25}}
           />
+        </View>
+        <Loading loading={loading} />
+        <View style={styles.contentContainer}>
           <View style={{width: '90%'}}>
             <Text
               category="h5"

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Image, StyleSheet, ScrollView} from 'react-native';
-import {Layout, Text} from '@ui-kitten/components';
+import {Card, Layout, Text} from '@ui-kitten/components';
 import FeaturedCard from '../../components/cards/FeaturedCard';
 import {api} from '../../../config/api';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 
 const Home = ({navigation, route}) => {
   const dispatch = useDispatch();
+  const {userDetails} = useSelector(state => state.auth);
   const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(false);
   // const {loading, featured} = useSelector(state => state.menu);
@@ -63,23 +64,30 @@ const Home = ({navigation, route}) => {
           />
         </View>
         <View style={{marginHorizontal: 15, marginVertical: 30}}>
-          <Text category="h5">Good Morning, User!</Text>
+          <Text category="h5">Good Morning, {userDetails.fname}!</Text>
           <Text style={{marginBottom: 15}}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </Text>
           <ScrollView horizontal={true}>
-            {featured
-              ? featured.map((item, index) => {
-                  return (
-                    <FeaturedCard
-                      key={item.id}
-                      name={item.item_name}
-                      description={item.item_description}
-                      price={item.price}
-                    />
-                  );
-                })
-              : null}
+            {featured.length > 0 ? (
+              featured.map((item, index) => {
+                return (
+                  <FeaturedCard
+                    key={item.id}
+                    name={item.item_name}
+                    description={item.item_description}
+                    price={item.price}
+                  />
+                );
+              })
+            ) : (
+              <Card style={{width: '100%'}}>
+                <Text>
+                  No <Text style={{fontWeight: 'bold'}}>featured</Text> items to
+                  display
+                </Text>
+              </Card>
+            )}
           </ScrollView>
         </View>
         <View style={{marginHorizontal: 15, marginBottom: 20}}>
@@ -87,11 +95,12 @@ const Home = ({navigation, route}) => {
             My Favorites
           </Text>
           <ScrollView horizontal={true}>
-            <FeaturedCard />
-            <FeaturedCard />
-            <FeaturedCard />
-            <FeaturedCard />
-            <FeaturedCard />
+            <Card style={{width: '100%'}}>
+              <Text>
+                No <Text style={{fontWeight: 'bold'}}>Favories</Text> items to
+                display
+              </Text>
+            </Card>
           </ScrollView>
         </View>
       </ScrollView>

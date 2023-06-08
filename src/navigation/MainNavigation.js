@@ -6,6 +6,8 @@ import Register from '../screens/auth/Register';
 import BottomBarNavigation from '../navigation/BottomNavigation';
 import TopNavigation from './TopNavigation';
 import Cart from '../screens/Cart/Cart';
+import Payment from '../screens/Payment/Payment';
+import IndividualOrder from '../screens/Order/IndividualOrder';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +20,8 @@ const MainNavigation = () => {
         <Stack.Screen name="BottomNav" component={BottomBarNavigation} />
         <Stack.Screen name="TopNav" component={TopNavigation} />
         <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="IndividualOrder" component={IndividualOrder} />
       </Stack.Navigator>
     </NavigationContainer>
   );

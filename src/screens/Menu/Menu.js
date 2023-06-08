@@ -52,6 +52,54 @@ const Menu = ({navigation}) => {
           Alert.alert('Error!', 'There was a problem fetching the meny items!');
         });
     }
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      if (currIndex == 0) {
+        api
+          .get('api/getAllCategories')
+          .then(response => {
+            setCategories(response.data);
+            api
+              .get(`api/getSpecificCategory/${response.data[0].category_name}`)
+              .then(menuResponse => {
+                setMenuItems(menuResponse.data);
+                setLoading(false);
+              })
+              .catch(err => {
+                Alert.alert(
+                  'Error!',
+                  'There was a problem fetching the menu items!',
+                );
+                setLoading(false);
+                console.log(err.response.data);
+              });
+          })
+          .catch(err => {
+            setLoading(false);
+            console.log(err.response);
+            Alert.alert(
+              'Error!',
+              'There was a problem fetching the categories!',
+            );
+          });
+      } else {
+        api
+          .get(`api/getSpecificCategory/${category}`)
+          .then(response => {
+            setLoading(false);
+            setMenuItems(response.data);
+          })
+          .catch(err => {
+            setLoading(false);
+            Alert.alert(
+              'Error!',
+              'There was a problem fetching the meny items!',
+            );
+          });
+      }
+    });
+
+    return unsubscribe;
   }, [category, navigation]);
   return (
     <Layout style={styles.container}>

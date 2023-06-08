@@ -16,6 +16,8 @@ import TopNavigation from './TopNavigation';
 import {View} from 'react-native';
 import Cart from '../screens/Cart/Cart';
 import MenuCustomization from '../screens/Menu/MenuCustomization';
+import Payment from '../screens/Payment/Payment';
+import OrderHistory from '../screens/Order/OrderHistory';
 
 const BottomStack = createBottomTabNavigator();
 
@@ -113,6 +115,7 @@ const BottomBarNavigation = ({navigation}) => {
         name="MenuCustomization"
         component={MenuCustomization}
       />
+      <BottomStack.Screen name="OrderHistory" component={OrderHistory} />
     </BottomStack.Navigator>
   );
 };

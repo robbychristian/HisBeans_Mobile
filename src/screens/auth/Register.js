@@ -61,12 +61,12 @@ const Register = ({navigation, route}) => {
   return (
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={{alignItems: 'center', marginTop: 20}}>
+        {/* <View style={{alignItems: 'center', marginTop: 20}}>
           <Image
             source={require('../../../assets/logo/logo-circle-white.png')}
             style={{height: 125, width: 125, marginTop: 25}}
           />
-        </View>
+        </View> */}
         <Loading loading={loading} />
         <View style={styles.contentContainer}>
           <View style={{width: '90%'}}>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    height: '90%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

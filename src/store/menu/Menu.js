@@ -5,7 +5,7 @@ import {api} from '../../../config/api';
 const initialState = {
   loading: false,
   menu: [],
-  menuInput: undefined,
+  orderInput: undefined,
   featured: [],
   error: undefined,
 };
@@ -30,8 +30,10 @@ const menuSlice = createSlice({
     setMenu: (state, {payload}) => {
       state.menu = payload;
     },
-    setMenuInput: (state, {payload}) => {
-      state.menuInput = payload;
+    setOrderInput: (state, {payload}) => {
+      let tempInput = [];
+      tempInput.push(...state.orderInput, payload);
+      state.orderInput = tempInput;
     },
   },
   extraReducers: builder => {
@@ -50,6 +52,6 @@ const menuSlice = createSlice({
   },
 });
 
-export const {setMenu} = menuSlice.actions;
+export const {setMenu, setOrderInput} = menuSlice.actions;
 
 export default menuSlice;

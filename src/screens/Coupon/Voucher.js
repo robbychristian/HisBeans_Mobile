@@ -6,16 +6,18 @@ import CustomTextInput from '../../components/inputs/CustomTextInput';
 import {TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import {api} from '../../../config/api';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Alert} from 'react-native';
 import {useEffect} from 'react';
-import {Image} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {setOrderInput, setVoucherId} from '../../store/menu/Menu';
 
-const Coupon = ({navigation, route}) => {
+const Voucher = ({navigation, route}) => {
   const {userDetails} = useSelector(state => state.auth);
+  const {voucherId, totalPrice, orderInput} = useSelector(state => state.menu);
+  const dispatch = useDispatch();
   const [voucherCode, setVoucherCode] = useState('');
   const [vouchers, setVouchers] = useState([]);
-  const [punchCardCount, setPunchCardCount] = useState(0);
   const [refresher, setRefresher] = useState(0); //wala kasing redux huhu
 
   useEffect(() => {
@@ -26,24 +28,6 @@ const Coupon = ({navigation, route}) => {
         })
         .then(response => {
           setVouchers(response.data);
-        })
-        .catch(err => {
-          console.log(err.response);
-        });
-      api
-        .post('api/getUserVouchers', {
-          user_id: userDetails.id,
-        })
-        .then(response => {
-          setVouchers(response.data);
-        })
-        .catch(err => {
-          console.log(err.response);
-        });
-      api
-        .get(`api/getUserPunchCard/${userDetails.id}`)
-        .then(response => {
-          setPunchCardCount(Number(response.data[0].punch_card_count));
         })
         .catch(err => {
           console.log(err.response);
@@ -59,16 +43,20 @@ const Coupon = ({navigation, route}) => {
       .catch(err => {
         console.log(err.response);
       });
-    api
-      .get(`api/getUserPunchCard/${userDetails.id}`)
-      .then(response => {
-        setPunchCardCount(Number(response.data[0].punch_card_count));
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
     return unsubscribe;
   }, [navigation, refresher]);
+
+  const useVoucher = item => {
+    const newTotal =
+      Number(totalPrice) * (1 - Number(item.voucher_discount) / 100);
+    const newPrice = {
+      orderInput: orderInput,
+      totalPrice: newTotal,
+    };
+    dispatch(setVoucherId(item.voucher_id));
+    dispatch(setOrderInput(newPrice));
+    navigation.goBack();
+  };
 
   const addVoucher = () => {
     api
@@ -89,71 +77,35 @@ const Coupon = ({navigation, route}) => {
         Alert.alert('Error!', 'There was a problem with the request.');
       });
   };
-
-  // const RenderPunchCard = () => {
-  //   if (punchCardCount > 0) {
-  //     for (let i = 0; i < 10; i++) {
-  //       if (i < punchCardCount) {
-  //         return (
-  //           <Image
-  //             source={require('../../../assets/logo/logo-circle-white.png')}
-  //             style={{width: 50, height: 50, resizeMode: 'contain'}}
-  //           />
-  //         );
-  //       } else {
-  //         return (
-  //           <Image
-  //             source={require('../../../assets/logo/GCash-Logo.png')}
-  //             style={{width: 50, height: 50, resizeMode: 'contain'}}
-  //           />
-  //         );
-  //       }
-  //     }
-  //   }
-  // };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View
           style={{
             width: '100%',
-            paddingVertical: 30,
-            backgroundColor: '#F15A38',
+            backgroundColor: '#F25D3B',
+            paddingHorizontal: 10,
+            paddingVertical: 15,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Image
-              source={require('../../../assets/logo/logo-white.png')}
-              style={{
-                height: 100,
-                width: '60%',
-                resizeMode: 'contain',
-                marginTop: -20,
-              }}
-            />
-            {/* <RenderPunchCard /> */}
-
-            <Text style={{color: '#fff'}} category="h6">
-              You currently have{' '}
-              <Text style={{fontWeight: 'bold', color: '#fff'}} category="h5">
-                {punchCardCount}/10
-              </Text>{' '}
-              punch cards!
-            </Text>
-            <View style={{paddingHorizontal: 30, marginTop: 15}}>
-              <Text category="label" style={{color: '#fff'}}>
-                • One (1) drink is equivalent to one (1) stamp. (Not applicable
-                to RTD drinks & set menus)
-              </Text>
-              <Text category="label" style={{color: '#fff'}}>
-                • 10th stamp means entitlement to one coffee or drink
-              </Text>
-            </View>
-          </View>
+          <Icon
+            name="arrow-left"
+            size={30}
+            color={'#fff'}
+            onPress={() => navigation.goBack()}
+          />
+          <Text category="h5" style={{color: '#fff', marginRight: 30}}>
+            Apply Voucher
+          </Text>
+          <Text category="h5" style={{color: '#fff'}}></Text>
         </View>
         {vouchers.length > 0
           ? vouchers.map((item, index) => {
               return (
                 <CouponCard
+                  onPress={() => useVoucher(item)}
                   title={item.voucher_name}
                   description={item.promo_details}
                   validity={item.valid_until}
@@ -204,4 +156,4 @@ const Coupon = ({navigation, route}) => {
   );
 };
 
-export default Coupon;
+export default Voucher;

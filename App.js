@@ -25,6 +25,9 @@ import * as eva from '@eva-design/eva';
 import MainNavigation from './src/navigation/MainNavigation';
 import {Provider as StoreProvider} from 'react-redux';
 import {store} from './src/store';
+import {useEffect} from 'react';
+import messaging from '@react-native-firebase/messaging';
+import {Alert} from 'react-native';
 
 /**
  * Use any valid `name` property from eva icons (e.g `github`, or `heart-outline`)
@@ -32,16 +35,28 @@ import {store} from './src/store';
  */
 const HeartIcon = props => <Icon {...props} name="heart" />;
 
-export default () => (
-  <>
-    <IconRegistry icons={EvaIconsPack} />
-    <StoreProvider store={store}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <MainNavigation />
-      </ApplicationProvider>
-    </StoreProvider>
-  </>
-);
+export default () => {
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log(remoteMessage);
+      Alert.alert(
+        remoteMessage.notification.title,
+        remoteMessage.notification.body,
+      );
+    });
+    return unsubscribe;
+  }, []);
+  return (
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <StoreProvider store={store}>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <MainNavigation />
+        </ApplicationProvider>
+      </StoreProvider>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

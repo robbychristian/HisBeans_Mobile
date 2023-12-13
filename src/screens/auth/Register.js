@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../../store/auth/User';
 import {api} from '../../../config/api';
 import Loading from '../../components/Loading';
+import CustomPaperInput from '../../components/inputs/CustomPaperInput';
 
 const Register = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -69,61 +70,81 @@ const Register = ({navigation, route}) => {
         </View> */}
         <Loading loading={loading} />
         <View style={styles.contentContainer}>
+          <Image
+            source={require('../../../assets/logo/logo-filled-orange.png')}
+            style={{height: 125, width: 115}}
+          />
           <View style={{width: '90%'}}>
             <Text
               category="h5"
               style={{
-                color: '#f15a38',
+                color: '#F25D3B',
                 marginTop: 10,
+                textAlign: 'center',
               }}>
               Create an account!
             </Text>
-            <CustomTextInput
-              value={fname}
-              onChangeText={value => setFname(value)}
-              placeholder={`First Name`}
-            />
-            <CustomTextInput
-              value={lname}
-              onChangeText={value => setLname(value)}
-              placeholder={`Last Name`}
-            />
-            <CustomTextInput
+            <View style={{flexDirection: 'row'}}>
+              <CustomPaperInput
+                value={fname}
+                onChangeText={value => setFname(value)}
+                label={`First Name`}
+                isHalf={true}
+                textWhite={false}
+              />
+              <CustomPaperInput
+                value={lname}
+                onChangeText={value => setLname(value)}
+                label={`Last Name`}
+                isHalf={true}
+                textWhite={false}
+              />
+            </View>
+            <CustomPaperInput
               value={username}
               onChangeText={value => setUsername(value)}
-              placeholder={`Username`}
+              label={`Username`}
+              textWhite={false}
             />
-            <CustomTextInput
+            <CustomPaperInput
               value={cnumber}
               onChangeText={value => setCnum(value)}
               keyboardType="numeric"
-              placeholder={`Contact Number`}
+              label={`Contact Number`}
+              textWhite={false}
             />
-            <CustomTextInput
+            <CustomPaperInput
               value={email}
               onChangeText={value => setEmail(value)}
-              placeholder={`Email`}
+              label={`Email`}
+              textWhite={false}
             />
-            <CustomTextInput
-              onChangeText={value => setPassword(value)}
-              placeholder={`Password`}
-              value={password}
-              isPassword={true}
-            />
-            <CustomTextInput
-              onChangeText={value => setCpassword(value)}
-              placeholder={`Confirm Password`}
-              value={cpassword}
-              isPassword={true}
-            />
+            <View style={{flexDirection: 'row'}}>
+              <CustomPaperInput
+                onChangeText={value => setPassword(value)}
+                label={`Password`}
+                value={password}
+                isPassword={true}
+                textWhite={false}
+                isHalf={true}
+              />
+              <CustomPaperInput
+                onChangeText={value => setCpassword(value)}
+                label={`Confirm Password`}
+                value={cpassword}
+                isPassword={true}
+                textWhite={false}
+                isHalf={true}
+              />
+            </View>
             <Button
               onPress={() => onSubmit()}
               style={{
                 width: '100%',
                 marginTop: 20,
                 marginBottom: 10,
-                backgroundColor: '#f15a38',
-                borderColor: '#f15a38',
+                backgroundColor: '#F25D3B',
+                borderColor: '#F25D3B',
               }}>
               Register
             </Button>
@@ -131,7 +152,7 @@ const Register = ({navigation, route}) => {
               <Text
                 style={{
                   textAlign: 'center',
-                  color: '#f15a38',
+                  color: '#F25D3B',
                   fontWeight: 'bold',
                 }}>
                 Already have an account? Login here
@@ -147,7 +168,7 @@ const Register = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    backgroundColor: '#ffecd3',
+    backgroundColor: '#fff',
     flex: 1,
   },
   contentContainer: {

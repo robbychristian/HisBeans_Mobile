@@ -3,8 +3,9 @@ import {View} from 'react-native';
 import {Card, Text, ProgressBar} from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native';
+import moment from 'moment/moment';
 
-const OrderCard = ({orderNo, status, payment, onPress}) => {
+const OrderCard = ({orderNo, status, payment, onPress, date, price}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -13,39 +14,41 @@ const OrderCard = ({orderNo, status, payment, onPress}) => {
         paddingVertical: 5,
         backgroundColor: '#fff',
       }}>
-      <Card style={{backgroundColor: '#eee'}} onPress={onPress}>
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#fff',
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+          borderWidth: 1,
+          borderRadius: 10,
+          borderColor: '#ddd',
+        }}
+        onPress={onPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Icon name="coffee-outline" size={40} style={{marginRight: 30}} />
-          <View>
-            <Text style={{fontWeight: 'bold'}} category="h5">
-              Order Number: {orderNo}
-            </Text>
-            <Text category="label">
-              Status:{' '}
-              <Text
-                category="label"
-                status={status == 'Cancelled' ? 'danger' : 'warning'}>
-                {status}
+          <View style={{width: '100%'}}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={{fontWeight: 'bold'}} category="h6">
+                Order{' '}
+                {status === 'Pending' && payment === 'Completed'
+                  ? 'In Progress'
+                  : status === 'Pending' || payment === 'Pending'
+                  ? 'Pending'
+                  : 'Complete'}
               </Text>
+              <Text style={{fontWeight: 'bold'}} category="h6">
+                P {price}
+              </Text>
+            </View>
+            <Text category="label" appearance="hint">
+              Order #{orderNo}
             </Text>
             <Text category="label" appearance="hint">
-              Payment:{' '}
-              <Text
-                category="label"
-                status={
-                  payment == 'Pending'
-                    ? 'warning'
-                    : payment == 'Refunded'
-                    ? 'danger'
-                    : 'success'
-                }
-                appearance="hint">
-                {payment}
-              </Text>
+              {moment(date).format('LL, h:mmA')}
             </Text>
           </View>
         </View>
-      </Card>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

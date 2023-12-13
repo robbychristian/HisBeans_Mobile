@@ -7,6 +7,7 @@ import QRCode from 'react-qr-code';
 import {api} from '../../../config/api';
 import {useDispatch, useSelector} from 'react-redux';
 import {editProfile, logoutUser} from '../../store/auth/User';
+import CustomPaperInput from '../../components/inputs/CustomPaperInput';
 
 const Account = ({navigation}) => {
   const [visible, setVisible] = useState(false);
@@ -54,7 +55,7 @@ const Account = ({navigation}) => {
             flexDirection: 'row',
           }}>
           <Icon name="account-circle" size={125} color="#000" />
-          <View style={{position: 'absolute', top: 10, right: 10}}>
+          {/* <View style={{position: 'absolute', top: 10, right: 10}}>
             <TouchableOpacity
               onPress={() => {
                 logout();
@@ -67,7 +68,7 @@ const Account = ({navigation}) => {
               }}>
               <Text style={{color: '#fff', fontWeight: 'bold'}}>Logout</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <Modal
           visible={visible}
@@ -90,32 +91,33 @@ const Account = ({navigation}) => {
           }}>
           <View style={{width: '90%'}}>
             <View style={{flexDirection: 'row', marginVertical: 10}}>
-              <CustomTextInput
+              <CustomPaperInput
                 onChangeText={value => setFname(value)}
                 value={fname}
                 label={`First Name`}
                 isHalf
               />
-              <CustomTextInput
+              <CustomPaperInput
                 onChangeText={value => setLname(value)}
                 value={lname}
                 label={`Last Name`}
                 isHalf
               />
             </View>
-            <CustomTextInput
+            <CustomPaperInput
               onChangeText={value => setEmail(value)}
               value={email}
+              isDisabled={true}
               my={10}
               label={`Email`}
             />
-            <CustomTextInput
+            <CustomPaperInput
               onChangeText={value => setUsername(value)}
               value={username}
               my={10}
               label={`Username`}
             />
-            <CustomTextInput
+            <CustomPaperInput
               onChangeText={value => setCnum(value)}
               value={cnumber}
               my={10}
@@ -126,32 +128,65 @@ const Account = ({navigation}) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
               width: '90%',
               marginTop: 10,
             }}>
             <TouchableOpacity
               style={{
-                backgroundColor: '#23442b',
                 paddingHorizontal: 8,
                 borderRadius: 10,
                 paddingVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-              onPress={() => setVisible(true)}>
-              <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                Generate QR
+              onPress={() => navigation.navigate('ChangePassword')}>
+              <Text category="h6" style={{color: '#F25D3B'}}>
+                Change Password
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => onSubmit()}
               style={{
-                backgroundColor: '#198754',
-                paddingHorizontal: 8,
+                backgroundColor: '#F25D3B',
+                paddingHorizontal: 30,
                 borderRadius: 10,
                 paddingVertical: 10,
               }}>
-              <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                Update Profile
+              <Text style={{color: '#fff', fontWeight: 'bold'}}>Save</Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '90%',
+              marginTop: 10,
+            }}>
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 8,
+                borderRadius: 10,
+                paddingVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => setVisible(true)}>
+              <Icon name={'qrcode'} color={'#F25D3B'} size={80} />
+              <Text category="label" style={{color: '#F25D3B'}}>
+                Generate QR Code
               </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => logout()}
+              style={{
+                backgroundColor: '#000',
+                paddingHorizontal: 30,
+                borderRadius: 10,
+                paddingVertical: 10,
+              }}>
+              <Text style={{color: '#fff', fontWeight: 'bold'}}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>

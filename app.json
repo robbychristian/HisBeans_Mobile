@@ -1,4 +1,9 @@
 {
   "name": "HisBeans",
-  "displayName": "HisBeans"
+  "displayName": "HisBeans",
+  "extra": {
+    "eas": {
+      "projectId": "74c77ff7-4012-47f7-be9c-24d87199d37e"
+    }
+  }
 }

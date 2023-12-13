@@ -11,9 +11,12 @@ const CustomTextInput = ({
   isHalf,
   placeholder,
   isPassword,
+  isDisabled,
+  textWhite,
 }) => {
   return (
     <Input
+      disabled={isDisabled}
       style={{
         backgroundColor: '#fff',
         width: isHalf ? '50%' : '100%',
@@ -22,7 +25,7 @@ const CustomTextInput = ({
       }}
       keyboardType={keyboardType}
       label={() => (
-        <Text category="label" style={{color: '#f15a38'}}>
+        <Text category="label" style={{color: textWhite ? '#fff' : '#F25D3B'}}>
           {label}
         </Text>
       )}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "56661001658",
+    "project_id": "hisbeans",
+    "storage_bucket": "hisbeans.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56661001658:android:a2d7f54c5d5d5aa8f50983",
+        "android_client_info": {
+          "package_name": "com.hisbeans"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56661001658-0h6v907al5dsgshi4duh3oq6bhmpscu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN4atvimiCX61mDK6XrnDFgLSSVDWXteY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56661001658-0h6v907al5dsgshi4duh3oq6bhmpscu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

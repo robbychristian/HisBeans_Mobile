@@ -12,6 +12,8 @@ const Home = ({navigation, route}) => {
   const {userDetails} = useSelector(state => state.auth);
   const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [promotion, setPromotion] = useState(null);
+  const [favorites, setFavorites] = useState([]);
   // const {loading, featured} = useSelector(state => state.menu);
   // useEffect(() => {
   //   const unsubscribe = navigation.addListener('focus', async () => {
@@ -26,10 +28,27 @@ const Home = ({navigation, route}) => {
       .then(response => {
         setLoading(false);
         setFeatured(response.data);
-        console.log(response.data);
       })
       .catch(err => {
         setLoading(false);
+      });
+    api
+      .post('api/getUserFavorites', {
+        user_id: userDetails.id,
+      })
+      .then(response => {
+        setFavorites(response.data);
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+    api
+      .get('api/getPromotions')
+      .then(response => {
+        setPromotion(response.data);
+      })
+      .catch(err => {
+        console.log(err.response);
       });
     const unsubscribe = navigation.addListener('focus', () => {
       setLoading(true);
@@ -38,10 +57,27 @@ const Home = ({navigation, route}) => {
         .then(response => {
           setLoading(false);
           setFeatured(response.data);
-          console.log(response.data);
         })
         .catch(err => {
           setLoading(false);
+        });
+      api
+        .post('api/getUserFavorites', {
+          user_id: userDetails.id,
+        })
+        .then(response => {
+          setFavorites(response.data);
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
+      api
+        .get('api/getPromotions')
+        .then(response => {
+          setPromotion(response.data);
+        })
+        .catch(err => {
+          console.log(err.response);
         });
     });
     return unsubscribe;
@@ -58,21 +94,34 @@ const Home = ({navigation, route}) => {
             alignItems: 'center',
             marginTop: 15,
           }}>
-          <Image
-            source={require('../../../assets/logo/logo-black.png')}
-            style={{height: 100, width: '90%'}}
-          />
+          {promotion != null ? (
+            <Image
+              source={{
+                uri: `https://hbnaevis.online/HISBEANSapp-main/public/image/promo/${promotion.image_path}`,
+              }}
+              style={{height: 150, width: '90%'}}
+            />
+          ) : null}
         </View>
         <View style={{marginHorizontal: 15, marginVertical: 30}}>
-          <Text category="h5">Good Morning, {userDetails.fname}!</Text>
+          <Text category="h5">Hello, {userDetails.fname}!</Text>
           <Text style={{marginBottom: 15}}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Choose from the featured items that we have below.
           </Text>
           <ScrollView horizontal={true}>
             {featured.length > 0 ? (
               featured.map((item, index) => {
                 return (
                   <FeaturedCard
+                    onPress={() =>
+                      navigation.navigate('MenuCustomization', {
+                        id: item.id,
+                        price: item.price,
+                        description: item.item_description,
+                        image: item.image_path,
+                      })
+                    }
+                    menuImage={`https://hbnaevis.online/HISBEANSapp-main/public/image/menu/${item.image_path}`}
                     key={item.id}
                     name={item.item_name}
                     description={item.item_description}
@@ -95,12 +144,34 @@ const Home = ({navigation, route}) => {
             My Favorites
           </Text>
           <ScrollView horizontal={true}>
-            <Card style={{width: '100%'}}>
-              <Text>
-                No <Text style={{fontWeight: 'bold'}}>Favories</Text> items to
-                display
-              </Text>
-            </Card>
+            {favorites.length > 0 ? (
+              favorites.map((item, index) => {
+                return (
+                  <FeaturedCard
+                    onPress={() =>
+                      navigation.navigate('MenuCustomization', {
+                        id: item.id,
+                        price: item.price,
+                        description: item.item_description,
+                        image: item.image_path,
+                      })
+                    }
+                    menuImage={`https://hbnaevis.online/HISBEANSapp-main/public/image/menu/${item.image_path}`}
+                    key={item.id}
+                    name={item.item_name}
+                    description={item.item_description}
+                    price={item.price}
+                  />
+                );
+              })
+            ) : (
+              <Card style={{width: '100%'}}>
+                <Text>
+                  No <Text style={{fontWeight: 'bold'}}>Favorites</Text> items
+                  to display
+                </Text>
+              </Card>
+            )}
           </ScrollView>
         </View>
       </ScrollView>

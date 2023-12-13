@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {api} from '../../../config/api';
+import messaging from '@react-native-firebase/messaging';
 
 const initialState = {
   loading: false,
@@ -30,6 +31,25 @@ export const registerUser = createAsyncThunk(
       return response;
     } catch (err) {
       console.log(err.response);
+      return rejectWithValue(err.response);
+    }
+  },
+);
+
+export const updateToken = createAsyncThunk(
+  'auth/updateToken',
+  async (id, {rejectWithValue}) => {
+    try {
+      const fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        const response = await api.post('api/updateToken', {
+          id: id,
+          token: fcmToken,
+        });
+      }
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
       return rejectWithValue(err.response.data.error);
     }
   },
@@ -47,9 +67,13 @@ export const loginUser = createAsyncThunk(
       if (response.status == 201) {
         AsyncStorage.setItem('username', JSON.stringify(username));
         AsyncStorage.setItem('password', JSON.stringify(password));
+        if (response.data.user.notification_token == null) {
+          dispatch(updateToken(response.data.user.id));
+        }
       }
       return response;
     } catch (err) {
+      console.log(err.response.data);
       return rejectWithValue(err.response.data.error);
     }
   },
@@ -62,6 +86,7 @@ export const editProfile = createAsyncThunk(
       const response = await api.post('api/editProfile', inputs);
       return response;
     } catch (err) {
+      console.log(err.response);
       return rejectWithValue(err.response.data.error);
     }
   },
@@ -124,6 +149,15 @@ const authSlice = createSlice({
     builder.addCase(editProfile.rejected, (state, {payload}) => {
       state.loading = false;
       state.error = payload;
+    });
+    builder.addCase(updateToken.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(updateToken.fulfilled, (state, {payload}) => {
+      state.loading = false;
+    });
+    builder.addCase(updateToken.rejected, (state, {payload}) => {
+      state.loading = false;
     });
   },
 });

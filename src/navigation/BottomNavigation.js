@@ -6,6 +6,7 @@ import {
   BottomNavigationTab,
   Text,
 } from '@ui-kitten/components';
+import {Image} from 'react-native';
 import Menu from '../screens/Menu/Menu';
 import Order from '../screens/Order/Order';
 import Coupon from '../screens/Coupon/Coupon';
@@ -18,6 +19,7 @@ import Cart from '../screens/Cart/Cart';
 import MenuCustomization from '../screens/Menu/MenuCustomization';
 import Payment from '../screens/Payment/Payment';
 import OrderHistory from '../screens/Order/OrderHistory';
+import ChangePassword from '../screens/Account/ChangePassword';
 
 const BottomStack = createBottomTabNavigator();
 
@@ -34,44 +36,24 @@ const EmailIcon = props => <Icon {...props} name="email-outline" />;
 
 const BottomTabBar = ({navigation, state}) => (
   <BottomNavigation
-    style={{backgroundColor: '#f15a38'}}
-    indicatorStyle={{backgroundColor: '#f15a38'}}
+    style={{backgroundColor: '#F25D3B'}}
+    indicatorStyle={{backgroundColor: '#F25D3B'}}
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
     <BottomNavigationTab
-      title={() => (
-        <Text category="label" style={{color: '#fff'}}>
-          Home
-        </Text>
-      )}
+      title={() => <Icon name="home" color={'#fff'} size={30} />}
     />
     <BottomNavigationTab
-      title={() => (
-        <Text category="label" style={{color: '#fff'}}>
-          Menu
-        </Text>
-      )}
+      title={() => <Icon name="silverware" color={'#fff'} size={30} />}
     />
     <BottomNavigationTab
-      title={() => (
-        <Text category="label" style={{color: '#fff'}}>
-          Order
-        </Text>
-      )}
+      title={() => <Icon name="view-list-outline" color={'#fff'} size={30} />}
     />
     <BottomNavigationTab
-      title={() => (
-        <Text category="label" style={{color: '#fff'}}>
-          Coupon
-        </Text>
-      )}
+      title={() => <Icon name="ticket-percent" color={'#fff'} size={30} />}
     />
     <BottomNavigationTab
-      title={() => (
-        <Text category="label" style={{color: '#fff'}}>
-          Account
-        </Text>
-      )}
+      title={() => <Icon name="account" color={'#fff'} size={30} />}
     />
   </BottomNavigation>
 );
@@ -81,10 +63,15 @@ const BottomBarNavigation = ({navigation}) => {
     <BottomStack.Navigator
       tabBar={props => <BottomTabBar {...props} />}
       screenOptions={{
-        title: 'HisBeans',
+        headerTitle: props => (
+          <Image
+            source={require('../../assets/logo/logo-black.png')}
+            style={{width: 150, height: 30}}
+          />
+        ),
         headerTitleAlign: 'center',
-        headerTitleStyle: {color: '#fff'},
-        headerStyle: {backgroundColor: '#f15a38'},
+        headerTitleStyle: {color: '#000'},
+        headerStyle: {backgroundColor: '#fff'},
         headerRight: () => (
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity onPress={() => navigation.push('TopNav')}>
@@ -92,7 +79,7 @@ const BottomBarNavigation = ({navigation}) => {
                 name="inbox-full"
                 size={30}
                 style={{marginRight: 10}}
-                color="#FFF"
+                color="#F25D3B"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.push('Cart')}>
@@ -100,7 +87,7 @@ const BottomBarNavigation = ({navigation}) => {
                 name="cart"
                 size={30}
                 style={{marginRight: 10}}
-                color="#FFF"
+                color="#F25D3B"
               />
             </TouchableOpacity>
           </View>
@@ -116,6 +103,7 @@ const BottomBarNavigation = ({navigation}) => {
         component={MenuCustomization}
       />
       <BottomStack.Screen name="OrderHistory" component={OrderHistory} />
+      <BottomStack.Screen name="ChangePassword" component={ChangePassword} />
     </BottomStack.Navigator>
   );
 };

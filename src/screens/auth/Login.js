@@ -14,6 +14,7 @@ import Loading from '../../components/Loading';
 import {loginUser} from '../../store/auth/User';
 import {api} from '../../../config/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomPaperInput from '../../components/inputs/CustomPaperInput';
 
 const Login = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -33,8 +34,12 @@ const Login = ({navigation, route}) => {
         };
         const response = await dispatch(loginUser(input));
         // console.log(response);
-        if (response.type == 'auth/login/fulfilled') {
-          navigation.navigate('BottomNav');
+        if (response.payload.data.user.role == 'Customer') {
+          if (response.type == 'auth/login/fulfilled') {
+            navigation.navigate('BottomNav');
+          }
+        } else {
+          Alert.alert('Error!', 'Only customers can login to this app.');
         }
       } else if (username == '' || password == '') {
       }
@@ -50,10 +55,15 @@ const Login = ({navigation, route}) => {
         password,
       };
       const response = await dispatch(loginUser(input));
-      if (response.type == 'auth/login/fulfilled') {
-        navigation.navigate('BottomNav');
+      console.log(response.data);
+      if (response.payload.data.user.role == 'Customer') {
+        if (response.type == 'auth/login/fulfilled') {
+          navigation.navigate('BottomNav');
+        } else {
+          Alert.alert('Error!', 'Invalid Credentials');
+        }
       } else {
-        Alert.alert('Error!', 'Invalid Credentials');
+        Alert.alert('Error!', 'Only customers can login to this app.');
       }
     }
   };
@@ -64,22 +74,24 @@ const Login = ({navigation, route}) => {
         <Loading loading={loading} />
         <View style={styles.contentContainer}>
           <Image
-            source={require('../../../assets/logo/logo-circle-white.png')}
-            style={{height: 200, width: 200}}
+            source={require('../../../assets/logo/logo-filled-beige.png')}
+            style={{height: 220, width: 200}}
           />
           <View style={{width: '90%'}}>
-            <CustomTextInput
+            <CustomPaperInput
               value={username}
               onChangeText={value => setUsername(value)}
               label={`Username`}
               my={10}
+              textWhite={true}
             />
-            <CustomTextInput
+            <CustomPaperInput
               value={password}
               onChangeText={value => setPassword(value)}
               label={`Password`}
               isPassword
               my={10}
+              textWhite={true}
             />
             <Button
               onPress={() => onSubmit()}
@@ -87,20 +99,32 @@ const Login = ({navigation, route}) => {
                 width: '100%',
                 marginBottom: 10,
                 marginTop: 20,
-                backgroundColor: '#f15a38',
-                borderColor: '#f15a38',
+                backgroundColor: '#FDEBD3',
+                borderColor: '#FDEBD3',
               }}>
-              Login
+              <Text style={{color: '#000'}}></Text>
+              <Text style={{color: '#F25D3B'}}>Login</Text>
             </Button>
             <TouchableOpacity>
               <Text
                 style={{
                   textAlign: 'center',
-                  color: '#f15a38',
+                  color: '#fff',
                   fontWeight: 'bold',
                 }}
                 onPress={() => navigation.push('Register')}>
                 Don't have an account yet? Register here
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                }}
+                onPress={() => navigation.push('ForgotPassword')}>
+                Forgot password
               </Text>
             </TouchableOpacity>
           </View>
@@ -113,7 +137,7 @@ const Login = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    backgroundColor: '#ffecd3',
+    backgroundColor: '#F6775B',
     flex: 1,
   },
   contentContainer: {

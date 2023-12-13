@@ -6,6 +6,10 @@ const initialState = {
   loading: false,
   menu: [],
   orderInput: undefined,
+  totalPrice: undefined,
+  modeOfPayment: 'Cash',
+  referenceNumber: '',
+  voucherId: 0,
   featured: [],
   error: undefined,
 };
@@ -31,9 +35,25 @@ const menuSlice = createSlice({
       state.menu = payload;
     },
     setOrderInput: (state, {payload}) => {
-      let tempInput = [];
-      tempInput.push(...state.orderInput, payload);
-      state.orderInput = tempInput;
+      state.orderInput = payload.orderInput;
+      state.totalPrice = payload.totalPrice;
+    },
+    setVoucherId: (state, {payload}) => {
+      state.voucherId = payload;
+    },
+    setReferenceNumber: (state, {payload}) => {
+      state.referenceNumber = payload;
+    },
+    clearAllInputs: state => {
+      state.orderInput = undefined;
+      state.totalPrice = undefined;
+      state.voucherId = 0;
+    },
+    setModeOfPayment: (state, {payload}) => {
+      state.modeOfPayment = payload;
+    },
+    clearTotalPrice: (state, {payload}) => {
+      state.totalPrice = 0;
     },
   },
   extraReducers: builder => {
@@ -52,6 +72,14 @@ const menuSlice = createSlice({
   },
 });
 
-export const {setMenu, setOrderInput} = menuSlice.actions;
+export const {
+  setMenu,
+  setOrderInput,
+  setVoucherId,
+  setReferenceNumber,
+  clearAllInputs,
+  setModeOfPayment,
+  clearTotalPrice,
+} = menuSlice.actions;
 
 export default menuSlice;

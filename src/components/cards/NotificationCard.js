@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Card, Text} from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const NotificationCard = () => {
+const NotificationCard = ({title, description}) => {
   return (
     <View
       style={{
@@ -15,11 +15,8 @@ const NotificationCard = () => {
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Icon name="bullhorn" size={40} style={{marginRight: 30}} />
           <View>
-            <Text style={{fontWeight: 'bold'}}>New Voucher Available!</Text>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-              atque odio corporis, omnis vel quisquam natus aliquam
-            </Text>
+            <Text style={{fontWeight: 'bold'}}>{title}</Text>
+            <Text>{description}</Text>
           </View>
         </View>
       </Card>

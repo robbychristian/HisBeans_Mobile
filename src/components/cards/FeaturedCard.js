@@ -3,17 +3,23 @@ import React from 'react';
 import {View, Image} from 'react-native';
 import {Text} from '@ui-kitten/components';
 
-const FeaturedCard = ({name, description, price}) => {
+const FeaturedCard = ({name, description, price, menuImage, onPress}) => {
   return (
-    <Card style={{marginRight: 5, height: '100%', width: 200}}>
-      <Image
-        source={require('../../../assets/logo/logo-circle-white.png')}
-        style={{height: 150, width: 150}}
-      />
-      <Text category="h6">{name}</Text>
-      <Text category="label" appearance="hint">
-        {description}
+    <Card
+      onPress={onPress}
+      style={{
+        marginRight: 5,
+        height: '100%',
+        width: 200,
+        borderColor: 'transparent',
+      }}>
+      <Image source={{uri: menuImage}} style={{height: 150, width: 150}} />
+      <Text category="h6" style={{textAlign: 'center'}}>
+        {name}
       </Text>
+      {/* <Text category="label" appearance="hint">
+        {description}
+      </Text> */}
     </Card>
   );
 };

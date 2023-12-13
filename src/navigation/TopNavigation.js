@@ -8,8 +8,8 @@ const TopBarNavigation = createMaterialTopTabNavigator();
 
 const TopBar = ({navigation, state}) => (
   <TabBar
-    style={{backgroundColor: '#f15a38', paddingVertical: 20}}
-    indicatorStyle={{backgroundColor: '#f15a38'}}
+    style={{backgroundColor: '#F25D3B', paddingVertical: 20}}
+    indicatorStyle={{backgroundColor: '#F25D3B'}}
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
     <Tab

@@ -105,7 +105,10 @@ const Menu = ({navigation}) => {
     <Layout style={styles.container}>
       <Loading loading={loading} />
       <View style={{flex: 0.07}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}} horizontal={true}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}>
           {categories
             ? categories.map((item, index) => {
                 return (
@@ -128,24 +131,36 @@ const Menu = ({navigation}) => {
       </View>
       <View style={{flex: 0.9}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          {menuItems.length > 0
-            ? menuItems.map((item, index) => {
-                return (
-                  <MenuCard
-                    name={item.item_name}
-                    description={item.item_description}
-                    price={item.price}
-                    onPress={
-                      () =>
-                        navigation.navigate('MenuCustomization', {
-                          id: item.id,
-                        })
-                      // console.log(item.id)
-                    }
-                  />
-                );
-              })
-            : null}
+          <View
+            style={{
+              justifyContent: 'center',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              width: '100%',
+            }}>
+            {menuItems.length > 0
+              ? menuItems.map((item, index) => {
+                  return (
+                    <MenuCard
+                      name={item.item_name}
+                      description={item.item_description}
+                      price={item.price}
+                      menuImage={`https://hbnaevis.online/HISBEANSapp-main/public/image/menu/${item.image_path}`}
+                      onPress={
+                        () =>
+                          navigation.navigate('MenuCustomization', {
+                            id: item.id,
+                            price: item.price,
+                            description: item.item_description,
+                            image: item.image_path,
+                          })
+                        // console.log(item.id)
+                      }
+                    />
+                  );
+                })
+              : null}
+          </View>
         </ScrollView>
       </View>
     </Layout>
@@ -162,7 +177,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     borderColor: '#fff',
-    borderBottomColor: '#f15a38',
+    borderBottomColor: '#F25D3B',
     borderBottomWidth: 5,
   },
   button: {
